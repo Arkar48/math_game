@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Poppins:ital,wght@0,200;1,400&display=swap');
+body,html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(100, 181, 100, 0.88) !important;
+    box-sizing: border-box;
+}
+p,button,li{
+    font-family: 'Caveat', cursive;
+}
+.content{
+    height: 100%;
+    cursor: url(../img/handcursor.png),auto;
+}
+.text{
+    position: absolute;
+}
+
+.blackboard{
+    box-shadow: 0 32px 128px 0 #2c2c2c61,
+            0 32px 64px -48px #5050507c;
+}
+.text p{
+    color: transparent;
+    background-image: url(../img//8-chalk-stroke-banner-4.png);
+    background-clip: text;
+    -webkit-background-clip: text; 
+    height: auto;
+    padding: 20px;
+    font-size: 3.8rem;
+    background-size: cover;
+}
+.image{
+    position: relative;
+}
+.image #sound{
+    content: '';
+    position: absolute;
+    top:85%;
+    left: 8%;
+    transform: translate(-50%,-50%);
+}
+.exitQ{
+    font-size: 2.5rem;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: transparent;
+    background-image: url(../img//8-chalk-stroke-banner-4.png);
+    background-clip: text;
+    -webkit-background-clip: text; 
+    padding: 10px;
+}
+#about{
+    position: absolute;
+    top:10%;
+    right: 8%;
+    transform: translate(-50%,-50%);
+}
+#sound,#about{
+    padding: 3px;
+    font-size: 1.5rem;
+    color: transparent;
+    background-image: url(../img/chalkstyle2.png);
+    background-clip: text;
+    -webkit-background-clip: text; 
+}
+#timer{
+    position: absolute;
+    top:10%;
+    right: 8%;
+    transform: translate(-50%,-50%);
+    padding: 3px;
+    font-size: 2rem;
+    color: transparent;
+    background-image: url(../img/chalkstyle2.png);
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+.button{
+    color: transparent;
+    font-size: 3.5rem;
+    background-color: transparent;
+    background-image: url(../img/icon.png);
+    background-clip: text;
+    -webkit-background-clip: text; 
+    font-family: 'Caveat', cursive;
+    border:none;
+    margin: 0 10px 0 10px;
+    cursor: url('../img/handcursor.png'),auto !important;
+}
+#hearts{
+    position: absolute;
+    margin-left: 16px; 
+    padding: 0;
+    top:13%;
+    left: 8%; 
+    transform: translate(-50%,-50%);
+    font-size: 1.5rem;
+}
+.fa-heart{
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    background-image: url(../img/8-chalk-stroke-banner.png);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+#start_btn{
+    font-size: 5rem;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding: 9px;
+    color: transparent;
+    background-image: url(../img//8-chalk-stroke-banner-4.png);
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+.exit{
+    position: absolute;
+    top:85%;
+    right: 5%;
+    transform: translate(-50%,-50%);
+    background-image: url(../img//8-chalk-stroke-banner-4.png);
+    background-clip: text;
+    -webkit-background-clip: text; 
+    color: transparent;
+    padding: 2px;
+    font-size: 2rem;
+}
+#aboutlist{
+    position: absolute;
+    width: 80%;
+    line-height: 30px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    top:50%;
+    left: 53%;
+    transform: translate(-50%,-50%);
+    opacity: 1;
+    z-index: 100;
+    font-size: 2rem;
+}
+.lists{
+    display: block;
+    width: auto;
+    color: transparent;
+    background-image: url(../img/chalkstyle2.png);
+    background-clip: text;
+    -webkit-background-clip: text; 
+    /* padding: 10px; */
+    margin: 20px 0 20px 0;
+    
+}
+@media screen and (max-width:630px) {
+    .text p{
+        font-size: 2.5rem;
+    }
+    #start_btn{
+        font-size: 3rem;
+        padding: 10px;
+    }
+    .image #sound{
+        font-size: 1rem;
+    }
+    .exitQ,.exit,#timer{
+        font-size: 1.5rem;
+    }
+    .button{
+        font-size: 2.5rem;
+    }
+    #hearts{
+        font-size: 1rem;
+    }
+    #aboutlist{
+        font-size: 1rem;
+        line-height: 15px;
+    }
+}
+@media screen and (max-width:400px) {
+    .text p{
+        font-size: 1rem;
+    }
+    #start_btn{
+        font-size: 2rem;
+        padding: 10px;
+    }
+    .exitQ,.exit,#timer{
+        font-size: 1rem;
+    }
+    .button{
+        font-size: 1rem;
+    }
+    #aboutlist{
+        line-height: 10px;
+        font-size: 1rem;
+    }
+    #hearts{
+        font-size: 0.5rem;
+    }
+}
