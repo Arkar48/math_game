@@ -45,14 +45,7 @@ function startGame() {
 }
 start.onclick = startGame;
 
-function generateNumber(count) {
-  let numbers = new Set();
-  while (numbers.size < count) {
-    const num = Math.floor(Math.random() * 9 + 1);
-    numbers.add(num);
-  }
-  return Array.from(numbers);
-}
+
 function generateOperators(count) {
   let operations = new Set();
   while (operations.size < count) {
@@ -60,6 +53,14 @@ function generateOperators(count) {
     operations.add(operate);
   }
   return Array.from(operations);
+}
+function generateNumber(count) {
+  let numbers = new Set();
+  while (numbers.size < count) {
+    const num = Math.floor(Math.random() * 9 + 1);
+    numbers.add(num);
+  }
+  return Array.from(numbers);
 }
 function generateAnswer(correctAnswer) {
   const lowerBound = correctAnswer - 3;
