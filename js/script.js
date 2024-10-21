@@ -61,37 +61,37 @@ function generateNumber(count) {
     numbers.add(num);
   }
   return Array.from(numbers);
-}
-function generateAnswer(correctAnswer) {
-  const lowerBound = correctAnswer - 3;
-  const upperBound = correctAnswer + 3;
-  let potentialAnswers = new Set();
-  potentialAnswers.add(correctAnswer);
-  while (potentialAnswers.size < 5) {
-    let randomAns = getRandomArbitrary(lowerBound, upperBound + 1);
-    if (!Number.isInteger(correctAnswer)) {
-      randomAns = parseFloat(randomAns.toFixed(2));
-    } else {
-      randomAns = Math.floor(randomAns);
-    }
-    if (randomAns !== correctAnswer) {
-      potentialAnswers.add(randomAns);
-    }
-  }
-  const shuffledAnswers = shuffleArray(Array.from(potentialAnswers));
+// }
+// function generateAnswer(correctAnswer) {
+//   const lowerBound = correctAnswer - 3;
+//   const upperBound = correctAnswer + 3;
+//   let potentialAnswers = new Set();
+//   potentialAnswers.add(correctAnswer);
+//   while (potentialAnswers.size < 5) {
+//     let randomAns = getRandomArbitrary(lowerBound, upperBound + 1);
+//     if (!Number.isInteger(correctAnswer)) {
+//       randomAns = parseFloat(randomAns.toFixed(2));
+//     } else {
+//       randomAns = Math.floor(randomAns);
+//     }
+//     if (randomAns !== correctAnswer) {
+//       potentialAnswers.add(randomAns);
+//     }
+//   }
+//   const shuffledAnswers = shuffleArray(Array.from(potentialAnswers));
 
-  return shuffledAnswers;
-}
-function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
-}
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
+//   return shuffledAnswers;
+// }
+// function getRandomArbitrary(min, max) {
+//   return Math.random() * (max - min) + min;
+// }
+// function shuffleArray(array) {
+//   for (let i = array.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     [array[i], array[j]] = [array[j], array[i]];
+//   }
+//   return array;
+// }
 // function createQuestion(op, randomNumbers) {
 //   const divfortexts = document.createElement(vDom[1]);
 //   divfortexts.classList.add("text", "text-center");
