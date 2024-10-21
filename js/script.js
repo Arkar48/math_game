@@ -142,43 +142,43 @@ function createQuestion(op, randomNumbers) {
 }
 
 // Choose Answer
-function chooseAnswer(correctAnswer, event) {
-  let countDown = document.getElementById("timer");
-  event.preventDefault();
-  const ansChoice = event.target.textContent;
-  let gameContent = document.getElementById("gameContent");
-  if (correctAnswer == ansChoice) {
-    countDown.remove();
-    timer = 60;
-    gamewinsound();
-    gameContent.remove();
-    let gameWin = correctAns();
-    start.classList.add("d-none");
-    content.append(gameWin);
-    clearInterval(gametime);
-  } else {
-    let hearts = document.getElementById("hearts");
-    life--;
-    hearts.removeChild(hearts.lastChild);
-    wrongChoiceSound();
-    event.target.style.backgroundImage = "url('../img/icon2.png')";
-    event.target.setAttribute("disabled", true);
-    event.target.removeEventListener("click", chooseAnswer);
-    start.classList.add("d-none");
-    if (life == 0) {
-      timer = 60;
-      countDown.remove();
-      clearInterval(gametime);
-      gamelosesound();
-      gameContent.remove();
-      let gameLose = worngAns();
-      start.classList.add("d-none");
-      content.append(gameLose);
-      hearts.remove();
-    }
-  }
-  playsound();
-}
+// function chooseAnswer(correctAnswer, event) {
+//   let countDown = document.getElementById("timer");
+//   event.preventDefault();
+//   const ansChoice = event.target.textContent;
+//   let gameContent = document.getElementById("gameContent");
+//   if (correctAnswer == ansChoice) {
+//     countDown.remove();
+//     timer = 60;
+//     gamewinsound();
+//     gameContent.remove();
+//     let gameWin = correctAns();
+//     start.classList.add("d-none");
+//     content.append(gameWin);
+//     clearInterval(gametime);
+//   } else {
+//     let hearts = document.getElementById("hearts");
+//     life--;
+//     hearts.removeChild(hearts.lastChild);
+//     wrongChoiceSound();
+//     event.target.style.backgroundImage = "url('../img/icon2.png')";
+//     event.target.setAttribute("disabled", true);
+//     event.target.removeEventListener("click", chooseAnswer);
+//     start.classList.add("d-none");
+//     if (life == 0) {
+//       timer = 60;
+//       countDown.remove();
+//       clearInterval(gametime);
+//       gamelosesound();
+//       gameContent.remove();
+//       let gameLose = worngAns();
+//       start.classList.add("d-none");
+//       content.append(gameLose);
+//       hearts.remove();
+//     }
+//   }
+//   playsound();
+// }
 function correctAns() {
   life = life;
   let heart = document.getElementById("hearts");
