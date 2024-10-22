@@ -48,8 +48,9 @@ start.onclick = startGame;
 
 function generateOperators(count) {
   let operations = new Set();
+  const allowedOperators = ["+", "-", "×"]; // Exclude division for integer results
   while (operations.size < count) {
-    const operate = operators[Math.floor(Math.random() * operators.length)];
+    const operate = allowedOperators[Math.floor(Math.random() * allowedOperators.length)];
     operations.add(operate);
   }
   return Array.from(operations);
@@ -57,34 +58,19 @@ function generateOperators(count) {
 function generateNumber(count) {
   let numbers = new Set();
   while (numbers.size < count) {
-    const num = Math.floor(Math.random() * 9 + 1);
+    const num = Math.floor(Math.random() * 9) + 1; // Random integer between 1 and 9
     numbers.add(num);
   }
   return Array.from(numbers);
 }
-function generateAnswer(correctAnswer) {
-  const lowerBound = correctAnswer - 3;
-  const upperBound = correctAnswer + 3;
-  let potentialAnswers = new Set();
-  potentialAnswers.add(correctAnswer);
-  while (potentialAnswers.size < 5) {
-    let randomAns = getRandomArbitrary(lowerBound, upperBound + 1);
-    if (!Number.isInteger(correctAnswer)) {
-      randomAns = parseFloat(randomAns.toFixed(2));
-    } else {
-      randomAns = Math.floor(randomAns);
-    }
-    if (randomAns !== correctAnswer) {
-      potentialAnswers.add(randomAns);
-    }
-  }
-  const shuffledAnswers = shuffleArray(Array.from(potentialAnswers));
 
-  return shuffledAnswers;
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
-}
+
+
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -93,45 +79,117 @@ function shuffleArray(array) {
   return array;
 }
 
+function createQuestion(op, randomNumbers) {
+  const divfortexts = document.createElement("div");
+  divfortexts.classList.add("text", "text-center");
+  divfortexts.setAttribute("id", "gameContent");
+  const question = document.createElement("p");
+  question.classList.add("item");
+  const divforAns = document.createElement("div");
+  divforAns.classList.add(
+    "answer",
+    "mt-4",
+    "d-flex",
+    "justify-content-between"
+  );
+
+  // Build the equation string
+  const show = `${randomNumbers[0]} ${op[0]} ${randomNumbers[1]} ${op[1]} ${randomNumbers[2]}`;
+  const equation = `${randomNumbers[0]} ${op[0]
+    .replace("×", "*")
+    .replace("÷", "/")} ${randomNumbers[1]} ${op[1]
+    .replace("×", "*")
+    .replace("÷", "/")} ${randomNumbers[2]}`;
+
+  question.textContent = show + " = ?";
+  const exit = document.createElement("p");
+  exit.textContent = "exit";
+  exit.setAttribute("id", "exit");
+  exit.classList.add("exit");
+  blackboard.append(exit);
+
+  exit.onclick = function () {
+    exit.classList.add("d-none");
+    divfortexts.setAttribute("style", "opacity:0; z-index:-1");
+    playsound();
+    let exitContent = exitGame(event);
+    content.append(exitContent);
+  };
+
+  let correctAnswer = eval(equation);
+
+  // Ensure the correctAnswer is an integer
+  correctAnswer = Math.round(correctAnswer);
+
+  let randomAnswer = generateAnswer(correctAnswer);
+
+  for (let i = 0; i < randomAnswer.length; i++) {
+    let answers = document.createElement("button");
+    answers.textContent = randomAnswer[i];
+    answers.classList.add("button");
+    answers.addEventListener("click", (event) => chooseAnswer(correctAnswer, event));
+    divforAns.appendChild(answers);
+  }
+
+  divfortexts.append(question, divforAns);
+  return divfortexts;
+}
+
+function generateAnswer(correctAnswer) {
+  const lowerBound = correctAnswer - 10; // Adjust bounds as needed
+  const upperBound = correctAnswer + 10;
+  let potentialAnswers = new Set();
+  potentialAnswers.add(correctAnswer);
+
+  while (potentialAnswers.size < 5) {
+    let randomAns = getRandomInt(lowerBound, upperBound);
+
+    if (randomAns !== correctAnswer) {
+      potentialAnswers.add(randomAns);
+    }
+  }
+
+  return shuffleArray(Array.from(potentialAnswers));
+}
 
 // Choose Answer
-// function chooseAnswer(correctAnswer, event) {
-//   let countDown = document.getElementById("timer");
-//   event.preventDefault();
-//   const ansChoice = event.target.textContent;
-//   let gameContent = document.getElementById("gameContent");
-//   if (correctAnswer == ansChoice) {
-//     countDown.remove();
-//     timer = 60;
-//     gamewinsound();
-//     gameContent.remove();
-//     let gameWin = correctAns();
-//     start.classList.add("d-none");
-//     content.append(gameWin);
-//     clearInterval(gametime);
-//   } else {
-//     let hearts = document.getElementById("hearts");
-//     life--;
-//     hearts.removeChild(hearts.lastChild);
-//     wrongChoiceSound();
-//     event.target.style.backgroundImage = "url('../img/icon2.png')";
-//     event.target.setAttribute("disabled", true);
-//     event.target.removeEventListener("click", chooseAnswer);
-//     start.classList.add("d-none");
-//     if (life == 0) {
-//       timer = 60;
-//       countDown.remove();
-//       clearInterval(gametime);
-//       gamelosesound();
-//       gameContent.remove();
-//       let gameLose = worngAns();
-//       start.classList.add("d-none");
-//       content.append(gameLose);
-//       hearts.remove();
-//     }
-//   }
-//   playsound();
-// }
+function chooseAnswer(correctAnswer, event) {
+  let countDown = document.getElementById("timer");
+  event.preventDefault();
+  const ansChoice = event.target.textContent;
+  let gameContent = document.getElementById("gameContent");
+  if (correctAnswer == ansChoice) {
+    countDown.remove();
+    timer = 60;
+    gamewinsound();
+    gameContent.remove();
+    let gameWin = correctAns();
+    start.classList.add("d-none");
+    content.append(gameWin);
+    clearInterval(gametime);
+  } else {
+    let hearts = document.getElementById("hearts");
+    life--;
+    hearts.removeChild(hearts.lastChild);
+    wrongChoiceSound();
+    event.target.style.backgroundImage = "url('../img/icon2.png')";
+    event.target.setAttribute("disabled", true);
+    event.target.removeEventListener("click", chooseAnswer);
+    start.classList.add("d-none");
+    if (life == 0) {
+      timer = 60;
+      countDown.remove();
+      clearInterval(gametime);
+      gamelosesound();
+      gameContent.remove();
+      let gameLose = worngAns();
+      start.classList.add("d-none");
+      content.append(gameLose);
+      hearts.remove();
+    }
+  }
+  playsound();
+}
 function correctAns() {
   life = life;
   let heart = document.getElementById("hearts");
@@ -372,52 +430,4 @@ function timersound() {
   let timersound = new Audio("timer.mp3");
   timersound.loop = false;
   timersound.play();
-}
-function createQuestion(op, randomNumbers) {
-  const divfortexts = document.createElement(vDom[1]);
-  divfortexts.classList.add("text", "text-center");
-  divfortexts.setAttribute("id", "gameContent");
-  const question = document.createElement(vDom[0]);
-  question.classList.add("item");
-  const divforAns = document.createElement(vDom[1]);
-  divforAns.classList.add(
-    "answer",
-    "mt-4",
-    "d-flex",
-    "justify-content-between"
-  );
-  const show = `${randomNumbers[0]} ${op[0]} ${randomNumbers[1]} ${op[1]} ${randomNumbers[2]}`;
-  const equation = `${randomNumbers[0]} ${op[0]
-    .replace("×", "*")
-    .replace("÷", "/")} ${randomNumbers[1]} ${op[1]
-    .replace("×", "*")
-    .replace("÷", "/")} ${randomNumbers[2]}`;
-  question.textContent = show + "= ?";
-  const exit = document.createElement(vDom[0]);
-  exit.textContent = "exit";
-  exit.setAttribute("id", "exit");
-  exit.classList.add("exit");
-  blackboard.append(exit);
-  exit.onclick = function () {
-    exit.classList.add("d-none");
-    divfortexts.setAttribute("style", "opacity:0; z-index:-1");
-    playsound();
-    let exitContent = exitGame(event);
-    content.append(exitContent);
-  };
-  let correctAnswer = eval(equation);
-  console.log(correctAnswer);
-  if (!Number.isInteger(correctAnswer)) {
-    correctAnswer = parseFloat(correctAnswer.toFixed(2));
-  }
-  let randomAnswer = generateAnswer(correctAnswer);
-  for (let i = 0; i < randomAnswer.length; i++) {
-    let answers = document.createElement(vDom[4]);
-    answers.textContent = randomAnswer[i];
-    answers.classList.add("button");
-    answers.addEventListener("click", () => chooseAnswer(correctAnswer, event));
-    divforAns.appendChild(answers);
-  }
-  divfortexts.append(question, divforAns);
-  return divfortexts;
 }
